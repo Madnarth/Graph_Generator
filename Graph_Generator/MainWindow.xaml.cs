@@ -27,6 +27,7 @@ namespace Graph_Generator
         public MainWindow()
         {
             InitializeComponent();
+            txtBoxVerticesQuantity.Focus();
         }
 
         public int ellipseSize = 40;
@@ -58,9 +59,9 @@ namespace Graph_Generator
         {
             buttGraphColor.IsEnabled = true;
             canGraph.Children.Clear();
+            txtBox1.Clear();
             
             verticesList.VertexList = new List<Vertex>();
-            txtBoxTest.Clear();
             string probability = int.Parse(txtBoxProbability0.Text) + System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSepar‌​ator + int.Parse(txtBoxProbability1.Text);
             Adjacency_Matrix.N = int.Parse(txtBoxVerticesQuantity.Text);
             Adjacency_Matrix.P = Double.Parse(probability);
@@ -82,6 +83,7 @@ namespace Graph_Generator
             DrawVerticesFromList(verticesList, ShiftForVertex());
             DrawEdgeFromList(verticesList, ShiftForEdge());
             FindNeighbors(verticesList);
+            PrintAdjacencyMatrix(Adjacency_Matrix.AdjMatrix);
         }
         //
         //Rysowanie wierzchołków z listy
@@ -251,6 +253,25 @@ namespace Graph_Generator
                 MessageBox.Show(ex.Message);
             }
         }
+        //
+        //Wyświetlanie tablicy sąsiedztwa
+        private void PrintAdjacencyMatrix(int[,] _matrix)
+        {
+            txtBox1.Text += "Adjacency Matrix:\n";
+            for (int i = 0; i < _matrix.GetLength(0); i++)
+            {
+                if (i<9)
+                {
+                    txtBox1.Text += "  ";
+                }
+                txtBox1.Text += "v" + (i + 1) + "| ";
+                for (int j = 0; j < _matrix.GetLength(1); j++)
+                {
+                    txtBox1.Text += _matrix[i, j] + "   ";
+                }
+                txtBox1.Text += "\n";
+            }
+        }
         private void txtBoxProbability0_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (System.Text.RegularExpressions.Regex.IsMatch(txtBoxProbability0.Text, "[^0-1]"))
@@ -261,8 +282,8 @@ namespace Graph_Generator
             {
                 if (NullAsZero(txtBoxProbability0.Text) > 0 && NullAsZero(txtBoxProbability1.Text) > 0)
                 {
-                    MessageBox.Show("The probability value should be 0-1");
-                    txtBoxProbability0.Text = txtBoxProbability0.Text.Remove(txtBoxProbability0.Text.Length - 1);
+                    MessageBox.Show("The probability value should be a double type from 0.0 to 1.0");
+                    txtBoxProbability0.Text = txtBoxProbability0.Text.Remove(txtBoxProbability0.Text.Length - txtBoxProbability0.Text.Length);
                 }
             }
         }
@@ -276,27 +297,11 @@ namespace Graph_Generator
             {
                 if (NullAsZero(txtBoxProbability0.Text) > 0 && NullAsZero(txtBoxProbability1.Text) > 0)
                 {
-                    MessageBox.Show("The probability value should be 0-1");
-                    txtBoxProbability1.Text = txtBoxProbability1.Text.Remove(txtBoxProbability1.Text.Length - 1);
+                    MessageBox.Show("The probability value should be a double type from 0.0 to 1.0");
+                    txtBoxProbability1.Text = txtBoxProbability1.Text.Remove(txtBoxProbability1.Text.Length - txtBoxProbability1.Text.Length);
                 }
             }
-        }
-
-        private void txtBoxProbability0_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtBoxProbability0.Text))
-            {
-                txtBoxProbability0.Text = "0";
-            }
-        }
-
-        private void txtBoxProbability1_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtBoxProbability1.Text))
-            {
-                txtBoxProbability1.Text = "0";
-            }
-        }
+        }       
 
         private void buttGraphColor_Click(object sender, RoutedEventArgs e)
         {
@@ -324,6 +329,39 @@ namespace Graph_Generator
             if (System.Text.RegularExpressions.Regex.IsMatch(txtBoxVerticesQuantity.Text, "[^0-9]"))
             {
                 txtBoxVerticesQuantity.Text = txtBoxVerticesQuantity.Text.Remove(txtBoxVerticesQuantity.Text.Length - 1);
+            }
+        }
+
+        private void txtBoxProbability1_GotFocus(object sender, RoutedEventArgs e)
+        {
+            txtBoxProbability1.Clear();
+        }
+
+        private void txtBoxProbability0_GotFocus(object sender, RoutedEventArgs e)
+        {
+            txtBoxProbability0.Clear();
+        }
+
+        private void txtBoxVerticesQuantity_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtBoxVerticesQuantity.Text))
+            {
+                txtBoxVerticesQuantity.Text = "0";
+            }
+        }
+        private void txtBoxProbability0_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtBoxProbability0.Text))
+            {
+                txtBoxProbability0.Text = "0";
+            }
+        }
+
+        private void txtBoxProbability1_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtBoxProbability1.Text))
+            {
+                txtBoxProbability1.Text = "0";
             }
         }
     }

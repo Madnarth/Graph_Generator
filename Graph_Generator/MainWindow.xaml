@@ -5,32 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Graph_Generator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" Background="AliceBlue" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Graph Generator" Height="600" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Icon="./Resources/GraphGenerator.png" >
+    <Window.Background>
+        <ImageBrush ImageSource="Resources/Background.jpg"/>
+    </Window.Background>
+
     <Grid>
         <DockPanel Margin="20,20" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Border CornerRadius="6" BorderBrush="Black" Background="Gainsboro" BorderThickness="4" DockPanel.Dock="Top">
+            <Border CornerRadius="6" BorderBrush="WhiteSmoke" BorderThickness="4" DockPanel.Dock="Top">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="#FF5773F3" Offset="0.05"/>
+                    </LinearGradientBrush>
+                </Border.Background>
                 <StackPanel Orientation="Vertical">
-                    <Label x:Name="labVerticesQuantity" Content="Put the number of vertices" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                    <TextBox x:Name="txtBoxVerticesQuantity" MaxLength="2" FontSize="15" TextAlignment="Center" x:FieldModifier="public" TextChanged="txtBoxVerticesQuantity_TextChanged"/>
-                    <Label x:Name="labVerticesProbability" Content="Put the value of probability" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <Label x:Name="labVerticesQuantity" Content="Put the number of vertices" FontSize="16" FontWeight="Bold" Foreground="#FFD6D6D6" HorizontalAlignment="Center"/>
+                    <TextBox x:Name="txtBoxVerticesQuantity" MaxLength="2" FontSize="15" TextAlignment="Center" x:FieldModifier="public" LostFocus="txtBoxVerticesQuantity_LostFocus" TextChanged="txtBoxVerticesQuantity_TextChanged"/>
+                    <Label x:Name="labVerticesProbability" Content="Put the value of probability" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#FFD6D6D6"/>
                     <StackPanel Orientation="Horizontal" Margin="20,0" HorizontalAlignment="Center">
-                        <TextBox x:Name="txtBoxProbability0" MaxLength="1" FontSize="15" TextAlignment="Center" VerticalAlignment="Center" TextChanged="txtBoxProbability0_TextChanged" LostFocus="txtBoxProbability0_LostFocus" Width="30"/>
+                        <TextBox x:Name="txtBoxProbability0" MaxLength="1" FontSize="15" Text="0" TextAlignment="Center" VerticalAlignment="Center" TextChanged="txtBoxProbability0_TextChanged" GotFocus="txtBoxProbability0_GotFocus" LostFocus="txtBoxProbability0_LostFocus" Width="30"/>
                         <Label x:Name="labDot" Content="." FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Width="15"/>
-                        <TextBox x:Name="txtBoxProbability1" MaxLength="2" FontSize="15" TextAlignment="Center" VerticalAlignment="Center" TextChanged="txtBoxProbability1_TextChanged" LostFocus="txtBoxProbability1_LostFocus" Width="30"/>
+                        <TextBox x:Name="txtBoxProbability1" MaxLength="2" FontSize="15" Text="0" TextAlignment="Center" VerticalAlignment="Center" TextChanged="txtBoxProbability1_TextChanged" GotFocus="txtBoxProbability1_GotFocus" LostFocus="txtBoxProbability1_LostFocus" Width="30"/>
                     </StackPanel>
-                    <Button x:Name="buttGraphGen" Click="buttGraphGen_Click">
+                    <Button x:Name="buttGraphGen" Click="buttGraphGen_Click" Background="#FF6493F9">
                         <TextBlock Text="Generate new graph"
-                            TextWrapping="Wrap" TextAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                            TextWrapping="Wrap" TextAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="#FFD6D6D6"/>
                     </Button>
-                    <Button x:Name="buttGraphColor" Click="buttGraphColor_Click" IsEnabled="False">
+                    <Button x:Name="buttGraphColor" Click="buttGraphColor_Click" IsEnabled="False" Background="#FF6493F9">
                         <TextBlock Text="Graph Coloring"
-                            TextWrapping="Wrap" TextAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                            TextWrapping="Wrap" TextAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="#FFD6D6D6"/>
                     </Button>
                 </StackPanel>
             </Border>
         </DockPanel>
         <Canvas x:Name="canGraph" Background="White"
-            Width="400" Height="400" Margin="220,20" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtBoxTest" Margin="625,46,22,290" />
+            Width="400" Height="400" Margin="40,20" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        <TextBox x:Name="txtBox1" Margin="20,220,0,51" HorizontalAlignment="Left" Height="300" Width="300" Background="Beige" IsReadOnly="True" Opacity="0.9"/>
     </Grid>
 </Window>
