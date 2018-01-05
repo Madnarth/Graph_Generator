@@ -119,7 +119,6 @@ namespace Graph_Generator
         {
             var ident=sender.GetType();
             txtBox2.Clear();
-            txtBox2.Text += "Vertex info\n";
             if (sender.GetType() == typeof(Ellipse))
             {
                 var i = (Ellipse)sender;
@@ -506,6 +505,10 @@ namespace Graph_Generator
             }
         }
 
-        
+        private void buttCredits_Click(object sender, RoutedEventArgs e)
+        {
+            var credits = new CreditsForm();
+            credits.Show();
+        }
     }
 }

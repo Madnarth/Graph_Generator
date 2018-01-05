@@ -55,9 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreditsForm.xaml.cs">
+      <DependentUpon>CreditsForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HexColor.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="Vertices.cs" />
+    <Page Include="CreditsForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

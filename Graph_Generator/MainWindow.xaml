@@ -41,12 +41,17 @@
                         <TextBlock Text="Graph Searching"
                             TextWrapping="Wrap" TextAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="#FFD6D6D6"/>
                     </Button>
+                    <Button x:Name="buttCredits" IsEnabled="true" Background="#FF6493F9" Click="buttCredits_Click">
+                        <TextBlock Text="Credits"
+                            TextWrapping="Wrap" TextAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="#FFD6D6D6"/>
+                    </Button>
                 </StackPanel>
             </Border>
         </DockPanel>
         <Canvas x:Name="canGraph" Background="White"
             Width="400" Height="400" Margin="40,20" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-        <TextBox x:Name="txtBox1" Margin="20,220,0,51" HorizontalAlignment="Left" Height="300" Width="300" Background="Beige" IsReadOnly="True" Opacity="0.9"/>
-        <TextBox x:Name="txtBox2" Margin="0,0,240,51" Height="79" Width="200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Beige" IsReadOnly="True" Opacity="0.9" />
+        <TextBox x:Name="txtBox1" Margin="20,254,0,17" HorizontalAlignment="Left" Height="300" Width="300" Background="Beige" IsReadOnly="True" Opacity="0.9"/>
+        <TextBox x:Name="txtBox2" Margin="0,0,40,60" Height="80" Width="200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="Beige" IsReadOnly="True" Opacity="0.9" />
+        
     </Grid>
 </Window>
