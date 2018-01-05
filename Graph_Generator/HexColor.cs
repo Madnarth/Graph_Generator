@@ -39,7 +39,8 @@ namespace Graph_Generator
             "#808000",
             "#A52A2A",
             "#800000",
-            "#FFCBA4"
+            "#FFCBA4",
+            "#FFFF00"
         };
         public static List<string> HEXCOLOR
         {

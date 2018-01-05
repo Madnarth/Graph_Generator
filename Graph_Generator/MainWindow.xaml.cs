@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Windows.Media.Effects;
 
 namespace Graph_Generator
 {
@@ -85,6 +86,10 @@ namespace Graph_Generator
             FindNeighbors(verticesList);
             PrintAdjacencyMatrix(Adjacency_Matrix.AdjMatrix);
         }
+        private void buttGraphSearch_Click(object sender, RoutedEventArgs e)
+        {
+            GraphSearching();
+        }
         //
         //Rysowanie wierzchołków z listy
         private void DrawVerticesFromList(Vertices _verticesList, double _shift)
@@ -93,6 +98,46 @@ namespace Graph_Generator
             {
                 DrawVertex(new Point(item.POSX + _shift, item.POSY + _shift), (SolidColorBrush)(new BrushConverter().ConvertFrom("#000000")), (SolidColorBrush)(new BrushConverter().ConvertFrom(item.COLOR)), item.ID.ToString());
             }
+        }
+        private void ellipse_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var ident=sender.GetType();
+            txtBox2.Clear();
+            if (sender.GetType() == typeof(Ellipse))
+            {
+                var i = (Ellipse)sender;
+                var v = verticesList.First(x => x.ID == Convert.ToInt16(i.Name.Trim('v')));
+                txtBox2.Text += "Vertex ID: " + v.ID + "\n" + "Vertex degree: " + v.DEGREE;
+                txtBox2.Text += "\nNeighbors: ";
+                foreach (var item in v.NEIGHBORS)
+                {
+                    txtBox2.Text += item + " ";
+                }
+            }
+            else
+            {
+                var i = (TextBlock)sender;
+                var v = verticesList.First(x => x.ID == Convert.ToInt16(i.Text));
+                txtBox2.Text += "Vertex ID: " + v.ID + "\n" + "Vertex degree: " + v.DEGREE;
+                txtBox2.Text += "\nNeighbors: ";
+                foreach (var item in v.NEIGHBORS)
+                {
+                    txtBox2.Text += item + " ";
+                }
+            }            
+        }
+        private void textBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            txtBox2.Clear();
+            var i = (TextBlock)sender;
+            var v = verticesList.First(x => x.ID == Convert.ToInt16(i.Name.Trim('v')));
+            txtBox2.Text += "Vertex ID: " + v.ID + "\n" + "Vertex degree: " + v.DEGREE;
+            txtBox2.Text += "\nNeighbors: ";
+            foreach (var item in v.NEIGHBORS)
+            {
+                txtBox2.Text += item + " ";
+            }
+            txtBox2.Text += "\nColor: " + v.COLOR;
         }
         //
         //Ryosawnie wierzchołka
@@ -106,6 +151,10 @@ namespace Graph_Generator
             ellipse.StrokeThickness = 2;
             ellipse.Stroke = _solidStrokeColorBrush;
             Canvas.SetZIndex(ellipse, 2);
+            ellipse.Name = "v"+_vID;
+
+            ellipse.MouseDown += ellipse_MouseDown;
+
             canGraph.Children.Add(ellipse);
 
             TextBlock textBlock = new TextBlock();
@@ -117,6 +166,7 @@ namespace Graph_Generator
                 textBlock.Margin = new Thickness(_point.X + 14, _point.Y + 6, 0, 0);
             textBlock.FontSize = 20;
             Canvas.SetZIndex(textBlock, 3);
+            textBlock.MouseDown += ellipse_MouseDown;
             canGraph.Children.Add(textBlock);
         }
         //
@@ -172,7 +222,7 @@ namespace Graph_Generator
         }
         //
         //Sprawdzanie, czy graf jest spójny
-        private bool CheckIfConsistent(Vertices _verticesList)
+        private bool CheckIfConnected(Vertices _verticesList)
         {
             bool consistent = true;
             foreach (var item in _verticesList)
@@ -257,21 +307,89 @@ namespace Graph_Generator
         //Wyświetlanie tablicy sąsiedztwa
         private void PrintAdjacencyMatrix(int[,] _matrix)
         {
-            txtBox1.Text += "Adjacency Matrix:\n";
+            string tekst = "";
+            tekst += "Adjacency Matrix:\n";
             for (int i = 0; i < _matrix.GetLength(0); i++)
             {
                 if (i<9)
                 {
-                    txtBox1.Text += "  ";
+                    tekst += "  ";
                 }
-                txtBox1.Text += "v" + (i + 1) + "| ";
+                tekst += "v" + (i + 1) + "| ";
                 for (int j = 0; j < _matrix.GetLength(1); j++)
                 {
-                    txtBox1.Text += _matrix[i, j] + "   ";
+                    tekst += _matrix[i, j] + "   ";
                 }
-                txtBox1.Text += "\n";
+                tekst += "\n";
             }
+            txtBox1.Text = tekst;
         }
+        //
+        //Przeszukiwanie wszerz
+        private void GraphSearching()
+        {
+            var rand = new Random();            
+            List<string> setOfColors = new List<string>();
+                for (int i = 0; i < verticesList.Count(); i++)
+                {
+                    int k = rand.Next(0, HexColor.HEXCOLOR.Count);
+                    if (!setOfColors.Contains(HexColor.HEXCOLOR[k]))
+                    {
+                        setOfColors.Add(HexColor.HEXCOLOR[k]);
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+
+            var visited = new List<int>();
+            var notVisited = new List<int>();
+
+            foreach (var item in verticesList)
+            {
+                notVisited.Add(item.ID);
+            }
+            var masterIndex = rand.Next(1, verticesList.Count() + 1);
+            visited.Add(masterIndex);
+            notVisited.Remove(masterIndex);
+            int number=0;
+
+                do
+                {
+            for (int i = 0; i < visited.Count; i++)
+
+
+
+       
+            {
+                foreach (var neigbour in verticesList.Where(x=>x.ID==visited[i]).First().NEIGHBORS)
+                {
+                    if (notVisited.Count!=0)
+                    {
+
+              
+                    if (notVisited.Contains(neigbour))
+                    {
+                        visited.Add(neigbour);
+                        notVisited.Remove(neigbour);
+                        verticesList.First(x => x.ID == neigbour).COLOR = setOfColors[number];
+                       
+                    }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+           
+            number++;
+            }
+
+                } while (notVisited.Count != 0);
+            DrawVerticesFromList(verticesList, ShiftForVertex());
+        }
+
         private void txtBoxProbability0_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (System.Text.RegularExpressions.Regex.IsMatch(txtBoxProbability0.Text, "[^0-1]"))
@@ -307,14 +425,14 @@ namespace Graph_Generator
         {
             try
             {
-                if (CheckIfConsistent(verticesList) == true)
+                if (CheckIfConnected(verticesList) == true)
                 {
                     GraphColoring(verticesList);
                     DrawVerticesFromList(verticesList, ShiftForVertex());
                 }
                 else
                 {
-                    throw new Exception("Graph must be consistent in order to color it\nPlease generate new graph");
+                    throw new Exception("Graph must be connected in order to color it\nPlease generate a new graph");
                 }
             }
             catch (Exception ex)
@@ -364,5 +482,7 @@ namespace Graph_Generator
                 txtBoxProbability1.Text = "0";
             }
         }
+
+        
     }
 }
