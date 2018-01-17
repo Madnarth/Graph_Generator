@@ -384,32 +384,6 @@ namespace Graph_Generator
                 }
                 num1++;
             } while (notVisited.Count != 0);
-            //    do
-            //    {
-            //        for (int i = 0; i < visited.Count; i++)
-
-            //        {
-            //            foreach (var neighbour in verticesList.Where(x=>x.ID==visited[i]).First().NEIGHBORS)
-            //            {
-            //                if (notVisited.Count!=0)
-            //                {
-            //                    if (notVisited.Contains(neighbour))
-            //                    {
-            //                        visited.Add(neighbour);
-            //                        notVisited.Remove(neighbour);
-            //                        verticesList.First(x => x.ID == neighbour).COLOR = setOfColors[number];
-
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    break;
-            //                }
-            //            }
-            //        number++;
-            //        }
-            //    } while (notVisited.Count != 0);
-            //DrawVerticesFromList(verticesList, ShiftForVertex());
         }
 
         private void txtBoxProbability0_TextChanged(object sender, TextChangedEventArgs e)
